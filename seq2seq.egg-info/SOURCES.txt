@@ -1,0 +1,5 @@
+seq2seq.egg-info/PKG-INFO
+seq2seq.egg-info/SOURCES.txt
+seq2seq.egg-info/dependency_links.txt
+seq2seq.egg-info/requires.txt
+seq2seq.egg-info/top_level.txt

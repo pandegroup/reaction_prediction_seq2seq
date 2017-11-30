@@ -1,0 +1,10 @@
+numpy
+matplotlib
+pyyaml
+pyrouge
+
+[tensorflow]
+tensorflow
+
+[tensorflow with gpu]
+tensorflow-gpu
