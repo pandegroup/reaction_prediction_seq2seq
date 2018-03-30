@@ -3,6 +3,8 @@ http://pubs.acs.org/doi/full/10.1021/acscentsci.7b00303
 
 # Requirements
 All requirements for https://github.com/google/seq2seq
+* python 3.5
+* tensorflow 1.0.1
 Additionally:
 * numpy
 * networkx
