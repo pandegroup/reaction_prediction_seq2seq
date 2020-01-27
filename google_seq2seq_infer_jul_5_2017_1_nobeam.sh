@@ -17,4 +17,4 @@ python -m bin.infer \
       source_files:
         - $TEST_SOURCES" \
 --checkpoint_path "${MODEL_DIR}/model.ckpt-44001"\
-  > ${PREDICTION_PATH}/predictions_44000_steps_beam_1_test.txt
+  > "${PREDICTION_PATH}/predictions_44000_steps_beam_1_test.txt"
