@@ -16,9 +16,7 @@
 IMPORTANT: This code is taken directly from Tensorflow
 (https://github.com/tensorflow/tensorflow) and is copied temporarily
 until it is available in a packaged Tensorflow version on pypi.
-
 TODO(dennybritz): Delete this code when it becomes available in TF.
-
 A library of helpers for use with SamplingDecoders.
 """
 
@@ -32,8 +30,12 @@ import abc
 
 import six
 
-from tensorflow.contrib.distributions.python.ops import bernoulli
-from tensorflow.contrib.distributions.python.ops import categorical
+# from tensorflow.contrib.distributions.python.ops import bernoulli
+# from tensorflow.contrib.distributions.python.ops import categorical
+
+from tensorflow.python.ops.distributions import bernoulli
+from tensorflow.python.ops.distributions import categorical
+
 from tensorflow.python.framework import dtypes
 from tensorflow.python.framework import ops
 from tensorflow.python.layers import base as layers_base
@@ -95,7 +97,6 @@ class CustomHelper(Helper):
 
   def __init__(self, initialize_fn, sample_fn, next_inputs_fn):
     """Initializer.
-
     Args:
       initialize_fn: callable that returns `(finished, next_inputs)`
         for the first iteration.
@@ -136,20 +137,17 @@ class CustomHelper(Helper):
 
 class TrainingHelper(Helper):
   """A helper for use during training.  Only reads inputs.
-
   Returned sample_ids are the argmax of the RNN output logits.
   """
 
   def __init__(self, inputs, sequence_length, time_major=False, name=None):
     """Initializer.
-
     Args:
       inputs: A (structure of) input tensors.
       sequence_length: An int32 vector tensor.
       time_major: Python bool.  Whether the tensors in `inputs` are time major.
         If `False` (default), they are assumed to be batch major.
       name: Name scope for any created operations.
-
     Raises:
       ValueError: if `sequence_length` is not a 1D tensor.
     """
@@ -207,7 +205,6 @@ class TrainingHelper(Helper):
 
 class ScheduledEmbeddingTrainingHelper(TrainingHelper):
   """A training helper that adds scheduled sampling.
-
   Returns -1s for sample_ids where no sampling took place; valid sample id
   values elsewhere.
   """
@@ -215,7 +212,6 @@ class ScheduledEmbeddingTrainingHelper(TrainingHelper):
   def __init__(self, inputs, sequence_length, embedding, sampling_probability,
                time_major=False, seed=None, scheduling_seed=None, name=None):
     """Initializer.
-
     Args:
       inputs: A (structure of) input tensors.
       sequence_length: An int32 vector tensor.
@@ -229,7 +225,6 @@ class ScheduledEmbeddingTrainingHelper(TrainingHelper):
       seed: The sampling seed.
       scheduling_seed: The schedule decision rule sampling seed.
       name: Name scope for any created operations.
-
     Raises:
       ValueError: if `sampling_probability` is not a scalar or vector.
     """
@@ -309,7 +304,6 @@ class ScheduledEmbeddingTrainingHelper(TrainingHelper):
 
 class ScheduledOutputTrainingHelper(TrainingHelper):
   """A training helper that adds scheduled sampling directly to outputs.
-
   Returns False for sample_ids where no sampling took place; True elsewhere.
   """
 
@@ -317,7 +311,6 @@ class ScheduledOutputTrainingHelper(TrainingHelper):
                time_major=False, seed=None, next_input_layer=None,
                auxiliary_inputs=None, name=None):
     """Initializer.
-
     Args:
       inputs: A (structure) of input tensors.
       sequence_length: An int32 vector tensor.
@@ -334,7 +327,6 @@ class ScheduledOutputTrainingHelper(TrainingHelper):
         dimension. These tensors will be concatenated to the sampled output or
         the `inputs` when not sampling for use as the next input.
       name: Name scope for any created operations.
-
     Raises:
       ValueError: if `sampling_probability` is not a scalar or vector.
     """
@@ -448,20 +440,17 @@ class ScheduledOutputTrainingHelper(TrainingHelper):
 
 class GreedyEmbeddingHelper(Helper):
   """A helper for use during inference.
-
   Uses the argmax of the output (treated as logits) and passes the
   result through an embedding layer to get the next input.
   """
 
   def __init__(self, embedding, start_tokens, end_token):
     """Initializer.
-
     Args:
       embedding: A callable that takes a vector tensor of `ids` (argmax ids),
         or the `params` argument for `embedding_lookup`.
       start_tokens: `int32` vector shaped `[batch_size]`, the start tokens.
       end_token: `int32` scalar, the token that marks end of decoding.
-
     Raises:
       ValueError: if `sequence_length` is not a 1D tensor.
     """
